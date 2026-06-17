@@ -82,7 +82,7 @@ export default function Shadowing({ onBack }) {
   return (
     <div className="page">
       <div className="page-top">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${((index + 1) / scripts.length) * 100}%` }} />
         </div>
@@ -94,12 +94,12 @@ export default function Shadowing({ onBack }) {
           <span className="shadow-category">{s.category}</span>
           {!isLibraryMode && <span className="shadow-level">N3</span>}
         </div>
-        <h2 className="shadow-title">{s.title}</h2>
+        <h2 className="shadow-title" lang="ja">{s.title}</h2>
       </div>
 
       {/* Audio source */}
       <div className="card">
-        <p className="card-label">🔊 音声</p>
+        <p className="card-label"><span aria-hidden="true">🔊 </span><span lang="ja">音声</span></p>
 
         {/* YouTube embed (library mode only) */}
         {isLibraryMode && videoId && (
@@ -138,7 +138,7 @@ export default function Shadowing({ onBack }) {
         {/* TTS only (built-in scripts or no video ID) */}
         {(!isLibraryMode || !videoId) && <TTSPlayer key={s.id} text={s.script} />}
 
-        <div className="shadow-steps">
+        <div className="shadow-steps" lang="ja">
           <div className="shadow-step"><span className="step-num">一</span><span>音声を聞く</span></div>
           <div className="shadow-step"><span className="step-num">二</span><span>同時に声を出す</span></div>
           <div className="shadow-step"><span className="step-num">三</span><span>スクリプトで確認</span></div>
@@ -154,18 +154,18 @@ export default function Shadowing({ onBack }) {
       {/* Script / Translation */}
       <div className="card">
         <div className="toggle-row">
-          <button className="toggle-btn" onClick={() => setShowScript((v) => !v)}>
+          <button className="toggle-btn" onClick={() => setShowScript((v) => !v)} aria-expanded={showScript} lang="ja">
             {showScript ? '▲ スクリプトを隠す' : '📄 スクリプトを見る'}
           </button>
           {s.translation && (
-            <button className="toggle-btn" onClick={() => setShowTrans((v) => !v)}>
+            <button className="toggle-btn" onClick={() => setShowTrans((v) => !v)} aria-expanded={showTrans} lang="ja">
               {showTrans ? '▲ 翻訳を隠す' : '🇻🇳 翻訳を見る'}
             </button>
           )}
         </div>
 
         {showScript && (
-          <div className="script-box shadow-script">
+          <div className="script-box shadow-script" lang="ja">
             <p>{s.script}</p>
           </div>
         )}

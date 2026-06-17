@@ -81,7 +81,7 @@ export default function FillBlankRunner({ questions, mode, renderAudio, onBack, 
   return (
     <>
       <div className="page-top">
-        {onBack && <button className="back-btn" onClick={onBack}>← 戻る</button>}
+        {onBack && <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>}
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${(index / questions.length) * 100}%` }} />
         </div>
@@ -93,21 +93,21 @@ export default function FillBlankRunner({ questions, mode, renderAudio, onBack, 
       )}
 
       <div className="card">
-        <p className="card-label">🎧 音声を聞いてください</p>
+        <p className="card-label"><span aria-hidden="true">🎧 </span><span lang="ja">音声を聞いてください</span></p>
         {renderAudio(q)}
-        <button className="toggle-btn" onClick={() => setShowScript((v) => !v)}>
+        <button className="toggle-btn" onClick={() => setShowScript((v) => !v)} aria-expanded={showScript} lang="ja">
           {showScript ? '▲ スクリプトを隠す' : '▼ スクリプトを見る'}
         </button>
         {showScript && (
-          <div className="script-box">
+          <div className="script-box" lang="ja">
             <p>{q.script}</p>
           </div>
         )}
       </div>
 
       <div className="card">
-        <p className="card-label">✍️ 空欄を埋めてください</p>
-        <p className="fill-sentence">
+        <p className="card-label"><span aria-hidden="true">✍️ </span><span lang="ja">空欄を埋めてください</span></p>
+        <p className="fill-sentence" lang="ja">
           {parts[0]}
           <span className={`fill-blank-slot ${submitted ? (isCorrect ? 'slot-correct' : 'slot-wrong') : ''}`}>
             {submitted ? q.answer : '＿＿＿'}
@@ -125,26 +125,28 @@ export default function FillBlankRunner({ questions, mode, renderAudio, onBack, 
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
               placeholder="答えを入力..."
+              aria-label="Nhập từ còn thiếu vào chỗ trống"
+              lang="ja"
               autoFocus
             />
-            <button className="btn-primary" onClick={handleSubmit}>確認</button>
+            <button className="btn-primary" onClick={handleSubmit} aria-label="Kiểm tra đáp án"><span lang="ja">確認</span></button>
           </div>
         )}
 
         {!submitted && q.hint && (
-          <button className="toggle-btn hint-btn" onClick={() => setShowHint((v) => !v)}>
+          <button className="toggle-btn hint-btn" onClick={() => setShowHint((v) => !v)} aria-expanded={showHint} lang="ja">
             {showHint ? '▲ ヒントを隠す' : '💡 ヒントを見る'}
           </button>
         )}
-        {showHint && !submitted && q.hint && <div className="hint-box">{q.hint}</div>}
+        {showHint && !submitted && q.hint && <div className="hint-box" lang="ja">{q.hint}</div>}
 
         {submitted && (
-          <div className={`feedback-box ${isCorrect ? 'fb-correct' : 'fb-wrong'}`}>
-            <p className="fb-title">
+          <div className={`feedback-box ${isCorrect ? 'fb-correct' : 'fb-wrong'}`} role="status" aria-live="polite">
+            <p className="fb-title" lang="ja">
               {isCorrect ? '✓ 正解！' : `✗ 不正解 — 正解：${q.answer}`}
             </p>
-            {!isCorrect && input && <p className="fb-your-ans">あなたの答え：{input}</p>}
-            {q.explanation && <p className="fb-exp">{q.explanation}</p>}
+            {!isCorrect && input && <p className="fb-your-ans" lang="ja">あなたの答え：{input}</p>}
+            {q.explanation && <p className="fb-exp" lang="ja">{q.explanation}</p>}
           </div>
         )}
 

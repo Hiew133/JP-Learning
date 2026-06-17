@@ -73,27 +73,30 @@ export default function TTSPlayer({ text, compact = false }) {
       <button
         className={`tts-play-btn ${isPlaying ? 'is-playing' : ''}`}
         onClick={() => play()}
-        title={isPlaying ? '停止' : '再生'}
+        aria-label={isPlaying ? 'Dừng phát âm thanh' : 'Phát âm thanh tiếng Nhật'}
+        aria-pressed={isPlaying}
       >
         {isPlaying ? (
-          <svg viewBox="0 0 24 24" fill="currentColor">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
             <rect x="6" y="4" width="4" height="16" rx="1" />
             <rect x="14" y="4" width="4" height="16" rx="1" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" fill="currentColor">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
             <path d="M8 5v14l11-7z" />
           </svg>
         )}
-        <span>{isPlaying ? '停止' : '再生'}</span>
+        <span lang="ja">{isPlaying ? '停止' : '再生'}</span>
       </button>
 
-      <div className="tts-speeds">
+      <div className="tts-speeds" role="group" aria-label="Tốc độ phát">
         {speeds.map((s) => (
           <button
             key={s}
             className={`tts-speed-btn ${speed === s ? 'active' : ''}`}
             onClick={() => handleSpeed(s)}
+            aria-label={`Tốc độ ${s} lần`}
+            aria-pressed={speed === s}
           >
             {s}×
           </button>

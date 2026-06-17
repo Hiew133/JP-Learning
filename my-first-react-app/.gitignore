@@ -13,6 +13,11 @@ dist-ssr
 *.local
 .env
 
+# Công cụ AI / trợ lý cục bộ (không thuộc mã nguồn dự án)
+.claude/
+.gemini/
+.impeccable/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

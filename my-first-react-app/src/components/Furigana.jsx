@@ -3,7 +3,7 @@
 export default function Furigana({ tokens, show = true }) {
   if (!tokens || tokens.length === 0) return null
   return (
-    <>
+    <span lang="ja">
       {tokens.map((t, i) =>
         show && t.r ? (
           <ruby key={i}>
@@ -14,6 +14,6 @@ export default function Furigana({ tokens, show = true }) {
           <span key={i}>{t.s}</span>
         )
       )}
-    </>
+    </span>
   )
 }

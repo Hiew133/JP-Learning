@@ -61,8 +61,8 @@ export default function AudioUpload({ onBack }) {
   return (
     <div className="page">
       <div className="page-top">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
-        <span className="lib-page-title">🎼 音声アップロード</span>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
+        <span className="lib-page-title"><span aria-hidden="true">🎼 </span><span lang="ja">音声アップロード</span></span>
       </div>
 
       {/* Form tải lên */}

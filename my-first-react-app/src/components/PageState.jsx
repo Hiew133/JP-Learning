@@ -2,11 +2,11 @@
 export default function PageState({ onBack, error = '', onRetry }) {
   return (
     <div className="page">
-      <button className="back-btn" onClick={onBack}>← 戻る</button>
-      <div className="card state-card">
+      <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
+      <div className="card state-card" role="status" aria-live="polite">
         {error ? (
           <>
-            <p className="lib-error">⚠️ {error}</p>
+            <p className="lib-error"><span aria-hidden="true">⚠️ </span>{error}</p>
             <p className="lib-note">
               Backend chưa chạy? Mở terminal và chạy: <code>cd backend</code> rồi <code>npm run dev</code>
             </p>
@@ -14,8 +14,8 @@ export default function PageState({ onBack, error = '', onRetry }) {
           </>
         ) : (
           <div className="loading-row">
-            <span className="spinner" />
-            <p className="lib-loading">読み込み中...</p>
+            <span className="spinner" aria-hidden="true" />
+            <p className="lib-loading"><span lang="ja">読み込み中...</span><span className="sr-only"> Đang tải</span></p>
           </div>
         )}
       </div>

@@ -118,7 +118,7 @@ export default function WatchLesson({ onBack }) {
   if (!synced) {
     return (
       <div className="page">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="card shadow-header-card">
           <h2 className="shadow-title">{lesson.title}</h2>
         </div>
@@ -153,7 +153,7 @@ export default function WatchLesson({ onBack }) {
   return (
     <div className="page watch-page">
       <div className="page-top">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <span className="lib-page-title">{lesson.title}</span>
       </div>
 
@@ -209,6 +209,15 @@ export default function WatchLesson({ onBack }) {
                 ref={(el) => (segRefs.current[i] = el)}
                 className={`seg-item ${i === activeIndex ? 'seg-active' : ''}`}
                 onClick={() => seekTo(seg)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Tua đến dòng ${i + 1}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    seekTo(seg)
+                  }
+                }}
               >
                 <span className="seg-num">#{i + 1}</span>
                 <div className="seg-jp">

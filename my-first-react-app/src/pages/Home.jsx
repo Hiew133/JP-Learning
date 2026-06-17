@@ -64,9 +64,9 @@ export default function Home() {
       className={`mode-card ${m.color}`}
       onClick={() => navigate(m.path)}
     >
-      <span className="mode-icon">{m.icon}</span>
+      <span className="mode-icon" aria-hidden="true">{m.icon}</span>
       <div className="mode-titles">
-        <span className="mode-title-jp">{m.title}</span>
+        <span className="mode-title-jp" lang="ja">{m.title}</span>
         <span className="mode-title-vi">{m.titleVi}</span>
       </div>
       <p className="mode-desc">{m.desc}</p>
@@ -78,10 +78,10 @@ export default function Home() {
     <div className="home">
       <header className="home-header">
         <div className="home-logo">
-          <span className="logo-jp">日本語</span>
-          <span className="hanko" aria-hidden="true">聴</span>
+          <span className="logo-jp" lang="ja">日本語</span>
+          <span className="hanko" lang="ja" aria-hidden="true">聴</span>
         </div>
-        <span className="logo-sub">JLPT N3 リスニング</span>
+        <span className="logo-sub" lang="ja">JLPT N3 リスニング</span>
         <p className="home-desc">
           Luyện kỹ năng nghe tiếng Nhật N3 — học bằng đề mẫu hoặc nội dung của bạn
         </p>
@@ -107,7 +107,7 @@ export default function Home() {
 
       <section className="home-section">
         <div className="section-head">
-          <span className="section-label-jp">練習モード</span>
+          <span className="section-label-jp" lang="ja">練習モード</span>
           <span className="section-label-vi">Chế độ luyện tập</span>
         </div>
         <div className="mode-grid">{modes.map(renderCard)}</div>
@@ -115,7 +115,7 @@ export default function Home() {
 
       <section className="home-section">
         <div className="section-head">
-          <span className="section-label-jp">あなたのコンテンツ</span>
+          <span className="section-label-jp" lang="ja">あなたのコンテンツ</span>
           <span className="section-label-vi">Nội dung của bạn · AI tạo câu hỏi</span>
         </div>
         <div className="mode-grid mode-grid-2">

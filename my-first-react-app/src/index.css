@@ -12,7 +12,8 @@
   --gold: #b8963e;
   --text: #2e2a23;
   --text-dim: #6f6557;
-  --text-muted: #a09480;
+  /* Đậm hơn để đạt WCAG AA (≥4.5:1) trên nền washi cho chữ nhỏ */
+  --text-muted: #756957;
   --border: #ded2b8;
   --success: #6b8e4e;
   --success-bg: rgba(107, 142, 78, 0.12);
@@ -51,9 +52,23 @@ input { font-family: inherit; }
 ::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--border); }
 
-button:focus-visible, input:focus-visible, a:focus-visible {
+button:focus-visible, input:focus-visible, a:focus-visible,
+[role="button"]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Chỉ hiển thị cho trình đọc màn hình (screen reader), ẩn về mặt thị giác */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @keyframes fade-up {
@@ -124,12 +139,9 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   font-family: var(--font-display);
   font-size: 3.4rem;
   font-weight: 900;
-  letter-spacing: -1px;
-  background: var(--accent-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 2px 10px rgba(201, 53, 39, 0.2));
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-shadow: 0 2px 14px rgba(201, 53, 39, 0.18);
 }
 
 .logo-sub {
@@ -206,7 +218,23 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .mode-card.mode-blue:hover  { border-color: var(--accent-blue); }
 .mode-card.mode-green:hover { border-color: var(--accent-green); }
 
-.mode-icon { font-size: 2rem; }
+.mode-icon {
+  font-size: 1.55rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  transition: transform 0.18s;
+}
+.mode-card:hover .mode-icon { transform: translateY(-2px) rotate(-3deg); }
+.mode-card.mode-red   .mode-icon { background: rgba(201, 53, 39, 0.10); border-color: rgba(201, 53, 39, 0.28); }
+.mode-card.mode-blue  .mode-icon { background: rgba(74, 111, 138, 0.10); border-color: rgba(74, 111, 138, 0.28); }
+.mode-card.mode-green .mode-icon { background: rgba(107, 142, 78, 0.12); border-color: rgba(107, 142, 78, 0.30); }
+.mode-card.mode-gold  .mode-icon { background: rgba(184, 150, 62, 0.12); border-color: rgba(184, 150, 62, 0.35); }
 
 .mode-titles { display: flex; flex-direction: column; gap: 2px; }
 
@@ -236,26 +264,29 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 
 .home-footer { color: var(--text-muted); font-size: 0.8rem; }
 
-/* ── Thanh thống kê nhanh ── */
+/* ── Thanh thống kê nhanh: một bảng ghi (như sổ học) liền mạch ── */
 .stat-bar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
   width: 100%;
   max-width: 540px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 .stat-tile {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  padding: 14px 8px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  padding: 16px 8px;
+  border-left: 1px solid var(--border);
+  transition: background 0.15s;
 }
-.stat-tile:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
+.stat-tile:first-child { border-left: none; }
+.stat-tile:hover { background: var(--accent-soft); }
 .stat-num {
   font-family: var(--font-display);
   font-size: 1.9rem;
@@ -277,7 +308,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   bottom: 3px;
   width: 4px;
   border-radius: 2px;
-  background: var(--accent-grad);
+  background: var(--accent);
 }
 .section-label-jp { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--text); }
 .section-label-vi { font-size: 0.8rem; color: var(--text-muted); }
@@ -1039,7 +1070,7 @@ button:focus-visible, input:focus-visible, a:focus-visible {
   .logo-jp { font-size: 2.6rem; }
   .hanko { right: -46px; top: -6px; width: 38px; height: 38px; font-size: 1.2rem; }
   .stat-num { font-size: 1.5rem; }
-  .stat-bar { gap: 8px; }
+  .stat-tile { padding: 14px 6px; }
   .page { padding: 16px 14px 32px; }
   .card { padding: 16px; }
   .mode-card { padding: 22px 18px; }

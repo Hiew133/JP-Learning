@@ -26,8 +26,8 @@ export default function Stats({ onBack }) {
   return (
     <div className="page">
       <div className="page-top">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
-        <span className="lib-page-title">📊 学習記録</span>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
+        <span className="lib-page-title"><span aria-hidden="true">📊 </span><span lang="ja">学習記録</span></span>
       </div>
 
       <div className="stats-grid">

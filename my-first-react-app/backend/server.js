@@ -1,6 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
+const rateLimit = require('express-rate-limit')
 const fs = require('fs')
 const path = require('path')
 const multer = require('multer')
@@ -18,12 +20,26 @@ const UPLOADS_DIR = path.join(__dirname, 'uploads')
 fs.mkdirSync(UPLOADS_DIR, { recursive: true })
 
 const app = express()
-const PORT = 3001
+const PORT = process.env.PORT || 3001
+// Origin của frontend được phép gọi API (đổi khi deploy qua biến môi trường)
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173'
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+// Header bảo mật cơ bản. Tắt CORP để file audio tĩnh vẫn nhúng được ở frontend khác origin.
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
+app.use(cors({ origin: CLIENT_ORIGIN }))
 app.use(express.json())
 // Phục vụ file audio đã tải lên (dùng cho thẻ <audio> ở frontend)
 app.use('/uploads', express.static(UPLOADS_DIR))
+
+// Giới hạn tần suất cho các route gọi AI (Gemini) — tránh bị spam đốt quota/chi phí.
+// 20 lần / 10 phút / IP cho việc sinh câu hỏi & điền từ.
+const aiLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Bạn thao tác quá nhanh. Vui lòng thử lại sau ít phút.' },
+})
 
 // Multer: lưu audio vào ổ đĩa với tên duy nhất, giới hạn 25MB, chỉ nhận audio
 const storage = multer.diskStorage({
@@ -102,7 +118,7 @@ app.get('/api/lessons/:id', (req, res) => {
 })
 
 // POST sinh (hoặc lấy cache) câu điền-khuyết cho video YouTube
-app.post('/api/lessons/:id/fill', async (req, res) => {
+app.post('/api/lessons/:id/fill', aiLimiter, async (req, res) => {
   const row = db.get('SELECT * FROM lessons WHERE id = ?', [req.params.id])
   if (!row) return res.status(404).json({ error: 'Không tìm thấy bài này' })
 
@@ -129,7 +145,7 @@ app.post('/api/lessons/:id/fill', async (req, res) => {
 })
 
 // POST fetch transcript from YouTube and save
-app.post('/api/lessons', async (req, res) => {
+app.post('/api/lessons', aiLimiter, async (req, res) => {
   const { url, title } = req.body
   if (!url) return res.status(400).json({ error: 'URL là bắt buộc' })
 
@@ -253,7 +269,7 @@ app.get('/api/audio-lessons/:id', (req, res) => {
 })
 
 // POST sinh (hoặc lấy cache) câu điền-khuyết cho bài audio đã upload
-app.post('/api/audio-lessons/:id/fill', async (req, res) => {
+app.post('/api/audio-lessons/:id/fill', aiLimiter, async (req, res) => {
   const row = db.get('SELECT * FROM audio_lessons WHERE id = ?', [req.params.id])
   if (!row) return res.status(404).json({ error: 'Không tìm thấy bài nghe này' })
 
@@ -280,7 +296,7 @@ app.post('/api/audio-lessons/:id/fill', async (req, res) => {
 })
 
 // POST tải audio + transcript -> Claude sinh câu hỏi -> lưu
-app.post('/api/audio-lessons', upload.single('audio'), async (req, res) => {
+app.post('/api/audio-lessons', aiLimiter, upload.single('audio'), async (req, res) => {
   const { transcript, title } = req.body
   const file = req.file
 
@@ -334,7 +350,7 @@ app.use((err, _req, res, _next) => {
 // Init DB then start server
 db.init().then(() => {
   app.listen(PORT, () => {
-    console.log(`✅ Backend chạy tại http://localhost:${PORT}`)
+    console.log(`✅ Backend chạy tại http://localhost:${PORT} (cho phép origin: ${CLIENT_ORIGIN})`)
   })
 }).catch((err) => {
   console.error('Không thể khởi động DB:', err)

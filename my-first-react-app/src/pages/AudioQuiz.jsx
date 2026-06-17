@@ -87,7 +87,7 @@ export default function AudioQuiz({ onBack }) {
     const pct = Math.round((score / questions.length) * 100)
     return (
       <div className="page">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="result-screen">
           <div className="result-circle" style={{ '--pct': pct }}>
             <span className="result-score">{score}/{questions.length}</span>
@@ -108,7 +108,7 @@ export default function AudioQuiz({ onBack }) {
   return (
     <div className="page">
       <div className="page-top">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="progress-bar">
           <div
             className="progress-fill"
@@ -158,7 +158,7 @@ export default function AudioQuiz({ onBack }) {
 
       {/* Câu hỏi trắc nghiệm */}
       <div className="card">
-        <p className="question-text">{q.question}</p>
+        <p className="question-text" lang="ja">{q.question}</p>
 
         <div className="options-list">
           {q.options.map((opt, i) => {
@@ -173,18 +173,19 @@ export default function AudioQuiz({ onBack }) {
                 className={cls}
                 onClick={() => handleSelect(i)}
                 disabled={answered}
+                aria-label={`Đáp án ${['A', 'B', 'C', 'D'][i]}`}
               >
-                <span className="option-letter">{['A', 'B', 'C', 'D'][i]}</span>
-                <span>{opt}</span>
+                <span className="option-letter" aria-hidden="true">{['A', 'B', 'C', 'D'][i]}</span>
+                <span lang="ja">{opt}</span>
               </button>
             )
           })}
         </div>
 
         {answered && (
-          <div className={`feedback-box ${isCorrect ? 'fb-correct' : 'fb-wrong'}`}>
-            <p className="fb-title">{isCorrect ? '✓ 正解！' : '✗ 不正解'}</p>
-            <p className="fb-exp">{q.explanation}</p>
+          <div className={`feedback-box ${isCorrect ? 'fb-correct' : 'fb-wrong'}`} role="status" aria-live="polite">
+            <p className="fb-title" lang="ja">{isCorrect ? '✓ 正解！' : '✗ 不正解'}</p>
+            <p className="fb-exp" lang="ja">{q.explanation}</p>
           </div>
         )}
 

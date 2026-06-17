@@ -53,7 +53,7 @@ export default function ContentFillQuiz({ source, onBack }) {
   if (!questions || !meta) {
     return (
       <div className="page">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="card state-card">
           <div className="loading-row">
             <span className="spinner" />
@@ -67,7 +67,7 @@ export default function ContentFillQuiz({ source, onBack }) {
   if (questions.length === 0) {
     return (
       <div className="page">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="card state-card">
           <p className="lib-empty">Không tạo được câu điền từ cho nội dung này.</p>
         </div>

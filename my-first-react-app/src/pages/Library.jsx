@@ -65,8 +65,8 @@ export default function Library({ onBack }) {
   return (
     <div className="page">
       <div className="page-top">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
-        <span className="lib-page-title">📚 ライブラリ</span>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
+        <span className="lib-page-title"><span aria-hidden="true">📚 </span><span lang="ja">ライブラリ</span></span>
       </div>
 
       {/* Add new lesson */}
@@ -162,20 +162,23 @@ export default function Library({ onBack }) {
                 <button
                   className="btn-primary btn-sm"
                   onClick={() => navigate(`/watch/${lesson.id}`)}
+                  aria-label={`Luyện tập: ${lesson.title}`}
                 >
-                  練習する
+                  <span lang="ja">練習する</span>
                 </button>
                 <button
                   className="btn-secondary btn-sm"
                   onClick={() => { setEditId(lesson.id); setEditTitle(lesson.title) }}
+                  aria-label={`Sửa tên: ${lesson.title}`}
                 >
-                  編集
+                  <span lang="ja">編集</span>
                 </button>
                 <button
                   className="btn-delete btn-sm"
                   onClick={() => handleDelete(lesson.id)}
+                  aria-label={`Xóa: ${lesson.title}`}
                 >
-                  削除
+                  <span lang="ja">削除</span>
                 </button>
               </div>
             </div>

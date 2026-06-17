@@ -24,10 +24,10 @@ export default function FillBlank({ onBack }) {
   if (questions.length === 0) {
     return (
       <div className="page">
-        <button className="back-btn" onClick={onBack}>← 戻る</button>
+        <button className="back-btn" onClick={onBack} aria-label="Quay lại"><span aria-hidden="true">←</span> <span lang="ja">戻る</span></button>
         <div className="card state-card">
           <p className="lib-empty">
-            {reviewMode ? '🎉 Không có câu sai nào để ôn lại!' : 'まだ問題がありません。'}
+            {reviewMode ? '🎉 Không có câu sai nào để ôn lại!' : <span lang="ja">まだ問題がありません。</span>}
           </p>
         </div>
       </div>
