@@ -169,9 +169,22 @@ app.post('/api/lessons', aiLimiter, async (req, res) => {
   try {
     let items = []
     try {
-      items = await YoutubeTranscript.fetchTranscript(videoId, { lang: 'ja' })
-    } catch {
-      items = await YoutubeTranscript.fetchTranscript(videoId)
+      // Ưu tiên phụ đề tiếng Nhật; không có thì lấy ngôn ngữ mặc định của video.
+      try {
+        items = await YoutubeTranscript.fetchTranscript(videoId, { lang: 'ja' })
+      } catch {
+        items = await YoutubeTranscript.fetchTranscript(videoId)
+      }
+    } catch (err) {
+      // Bắt riêng bước lấy phụ đề. Trước đây lỗi ở đây rơi chung vào catch cuối
+      // hàm cùng với lỗi dịch/furigana/ghi DB, nên mọi hỏng hóc đều bị báo là
+      // "video không có caption" — sai chỗ và không sửa được gì.
+      // Thư viện đã nói rõ video tắt caption, riêng tư, hay có sẵn ngôn ngữ nào,
+      // nên trả nguyên văn cho người dùng biết đường đổi video.
+      console.error('Lấy phụ đề thất bại:', err)
+      return res.status(404).json({
+        error: 'Không lấy được phụ đề. ' + (err && err.message ? err.message : String(err)),
+      })
     }
 
     if (!items || items.length === 0) {
@@ -221,10 +234,12 @@ app.post('/api/lessons', aiLimiter, async (req, res) => {
     const lesson = db.get('SELECT * FROM lessons WHERE id = ?', [result.lastInsertRowid])
     return res.status(201).json(parseLesson(lesson))
   } catch (err) {
-    console.error(err)
+    // Tới được đây nghĩa là phụ đề đã lấy xong (bước đó có catch riêng ở trên):
+    // lỗi nằm ở dịch, furigana hoặc ghi DB. Đừng báo là lỗi caption nữa.
+    console.error('Xử lý bài học thất bại:', err)
     return res.status(500).json({
-      error:
-        'Không lấy được phụ đề. Video có thể bị tắt caption hoặc là video riêng tư.',
+      error: 'Lấy được phụ đề nhưng xử lý bài học thất bại: ' +
+        (err && err.message ? err.message : String(err)),
     })
   }
 })
