@@ -115,7 +115,7 @@ export default function AudioUpload({ onBack }) {
         </button>
 
         <p className="lib-note">
-          ※ AI sẽ đọc transcript và tự tạo câu hỏi trắc nghiệm nghe hiểu (JLPT N3). File audio ≤ 25MB.
+          ※ AI sẽ đọc transcript và tự tạo câu hỏi trắc nghiệm nghe hiểu. File audio ≤ 25MB.
         </p>
       </div>
 

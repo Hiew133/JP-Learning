@@ -6,21 +6,21 @@ product
 
 ## Users
 
-Vietnamese speakers studying for the JLPT N3 Japanese listening section. They're
+Vietnamese speakers practising Japanese listening comprehension. They're
 self-directed learners — practising on their own time, often on mobile, fitting
 sessions into a busy day. Their goal is concrete: get better at understanding
-spoken Japanese well enough to pass N3 listening. They arrive with some kanji and
+spoken Japanese in real material. They arrive with some kanji and
 grammar but need reps with real audio, and they read explanations in Vietnamese.
 
 Two contexts of use:
-- **Structured practice** — official-style N3 question sets (listen-and-choose,
+- **Structured practice** — exam-style question sets (listen-and-choose,
   listen-and-fill, shadowing).
 - **Bring-your-own content** — upload audio + transcript, or save YouTube videos,
   and let AI generate listening/fill quizzes and synced furigana transcripts from them.
 
 ## Product Purpose
 
-A focused JLPT N3 listening trainer. It exists because passive listening doesn't
+A focused Japanese listening trainer. It exists because passive listening doesn't
 build test-ready comprehension — active recall (choose, fill, shadow, review
 mistakes) does. Success looks like: a learner returns regularly (streak),
 practises across modes, sees their accuracy climb, and can turn any audio or

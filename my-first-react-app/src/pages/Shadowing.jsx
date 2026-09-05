@@ -92,7 +92,6 @@ export default function Shadowing({ onBack }) {
       <div className="card shadow-header-card">
         <div className="shadow-meta">
           <span className="shadow-category">{s.category}</span>
-          {!isLibraryMode && <span className="shadow-level">N3</span>}
         </div>
         <h2 className="shadow-title" lang="ja">{s.title}</h2>
       </div>

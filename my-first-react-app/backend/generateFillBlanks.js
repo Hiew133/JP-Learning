@@ -32,7 +32,7 @@ const SCHEMA = {
   required: ['questions'],
 }
 
-const SYSTEM_PROMPT = `Bạn là giáo viên ra đề nghe hiểu tiếng Nhật JLPT N3, dạng "nghe và điền vào chỗ trống".
+const SYSTEM_PROMPT = `Bạn là giáo viên ra đề nghe hiểu tiếng Nhật, dạng "nghe và điền vào chỗ trống".
 Dựa trên transcript một đoạn audio tiếng Nhật, tạo các câu điền-khuyết:
 - Mỗi câu chọn MỘT từ khóa có nghĩa để khoét: danh từ, động từ, số, tên riêng, từ vựng quan trọng — KHÔNG chọn trợ từ (は・が・を・に・で...).
 - "script" là câu đầy đủ lấy ĐÚNG NGUYÊN VĂN từ transcript (có chứa từ cần điền).

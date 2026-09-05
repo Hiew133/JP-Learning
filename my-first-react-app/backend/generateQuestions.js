@@ -32,10 +32,10 @@ const QUESTION_SCHEMA = {
   required: ['questions'],
 }
 
-const SYSTEM_PROMPT = `Bạn là giáo viên ra đề thi nghe hiểu tiếng Nhật trình độ JLPT N3.
-Dựa trên transcript (lời thoại) một đoạn audio tiếng Nhật, hãy tạo các câu hỏi trắc nghiệm đúng format đề thi nghe JLPT thật:
+const SYSTEM_PROMPT = `Bạn là giáo viên ra đề nghe hiểu tiếng Nhật.
+Dựa trên transcript (lời thoại) một đoạn audio tiếng Nhật, hãy tạo các câu hỏi trắc nghiệm đúng format đề thi nghe thật:
 - Mỗi câu hỏi có đúng 4 lựa chọn, chỉ 1 đáp án đúng.
-- Câu hỏi và các lựa chọn viết bằng tiếng Nhật tự nhiên, đúng trình độ N3.
+- Câu hỏi và các lựa chọn viết bằng tiếng Nhật tự nhiên, bám sát độ khó của chính transcript.
 - Các lựa chọn sai phải hợp lý (gây nhiễu dựa trên nội dung), không quá lộ liễu.
 - Giải thích ngắn gọn bằng tiếng Nhật, trích dẫn phần liên quan trong hội thoại.
 - Số câu hỏi: 3-6 câu tùy độ dài và lượng thông tin của transcript.

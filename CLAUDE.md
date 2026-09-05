@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-JP-Learning is a Japanese (JLPT N3) listening-practice app. All code lives under `my-first-react-app/`: a Vite + React frontend and an Express backend in `backend/`. Code comments and error messages throughout are written in Vietnamese — match that convention when editing existing files.
+JP-Learning is a Japanese listening-practice app. All code lives under `my-first-react-app/`: a Vite + React frontend and an Express backend in `backend/`. Code comments and error messages throughout are written in Vietnamese — match that convention when editing existing files.
 
 ## Commands
 
@@ -36,7 +36,7 @@ Plain Express app, no router modules — all routes are defined directly in `ser
 
 1. **Static practice questions** — `GET /api/questions` reads `backend/data/questions.json` directly off disk on every request (no caching), keyed by type (`multipleChoice`, `fillBlank`, `shadowing`, etc.).
 2. **YouTube lessons** (`lessons` table) — `POST /api/lessons` accepts a YouTube URL, extracts the video ID, fetches Japanese captions via `youtube-transcript`, normalizes timestamps (srv3 returns ms, classic returns seconds — detected by checking if max offset > 3600), tokenizes each segment for furigana via `furigana.js` (kuromoji), and translates all segments to Vietnamese in one Gemini call via `translate.js`. Segments are stored as a JSON blob in the `segments` column.
-3. **Uploaded audio lessons** (`audio_lessons` table) — `POST /api/audio-lessons` accepts a multipart audio file (multer, 25MB cap, audio mimetype only) plus a user-supplied transcript, then calls Gemini (`generateQuestions.js`) to generate JLPT-style multiple-choice questions from that transcript.
+3. **Uploaded audio lessons** (`audio_lessons` table) — `POST /api/audio-lessons` accepts a multipart audio file (multer, 25MB cap, audio mimetype only) plus a user-supplied transcript, then calls Gemini (`generateQuestions.js`) to generate exam-style multiple-choice questions from that transcript.
 
 Both `lessons` and `audio_lessons` support an on-demand, cached fill-in-the-blank endpoint (`POST /:id/fill`, via `generateFillBlanks.js`) — the generated questions are persisted to a `fill_questions` column and reused unless `?force=1` is passed.
 

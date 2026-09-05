@@ -1,6 +1,6 @@
-# 日本語 — Luyện nghe JLPT N3
+# 日本語 — Luyện nghe tiếng Nhật
 
-Ứng dụng luyện **kỹ năng nghe tiếng Nhật trình độ JLPT N3** cho người Việt. Người học
+Ứng dụng luyện **kỹ năng nghe tiếng Nhật** cho người Việt. Người học
 luyện bằng đề mẫu (nghe–chọn, nghe–điền, shadowing) hoặc bằng **nội dung của riêng mình**:
 tải audio + transcript lên, hoặc lưu video YouTube, rồi để AI tự sinh câu hỏi nghe hiểu,
 câu điền từ và transcript có furigana + bản dịch tiếng Việt.
@@ -9,7 +9,7 @@ Giao diện song ngữ: tiếng Nhật cho nội dung học, tiếng Việt cho 
 
 ## Tính năng
 
-- **聴解クイズ** — Nghe hội thoại (TTS) rồi chọn đáp án, đúng format thi JLPT.
+- **聴解クイズ** — Nghe hội thoại (TTS) rồi chọn đáp án, đúng format đề thi nghe.
 - **穴埋め問題** — Nghe rồi điền từ còn thiếu vào chỗ trống.
 - **シャドーイング** — Nghe từng câu và nhắc lại; có ghi âm giọng để tự so sánh.
 - **音声アップロード** — Tải file audio + transcript, AI sinh câu trắc nghiệm & điền từ.

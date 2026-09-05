@@ -8,8 +8,8 @@ const modes = [
     icon: '🎧',
     title: '聴解クイズ',
     titleVi: 'Nghe + Chọn đáp án',
-    desc: 'Nghe hội thoại tiếng Nhật, chọn đáp án đúng — đúng format thi JLPT thật.',
-    count: 'Câu hỏi N3',
+    desc: 'Nghe hội thoại tiếng Nhật, chọn đáp án đúng — đúng format đề thi nghe.',
+    count: 'Câu hỏi nghe hiểu',
     color: 'mode-red',
   },
   {
@@ -18,7 +18,7 @@ const modes = [
     title: '穴埋め問題',
     titleVi: 'Nghe + Điền vào chỗ trống',
     desc: 'Nghe đoạn hội thoại rồi điền từ còn thiếu vào chỗ trống.',
-    count: 'Câu hỏi N3',
+    count: 'Câu hỏi nghe hiểu',
     color: 'mode-blue',
   },
   {
@@ -27,7 +27,7 @@ const modes = [
     title: 'シャドーイング',
     titleVi: 'Shadowing',
     desc: 'Nghe từng câu tiếng Nhật và nhắc lại — luyện tai và phát âm cùng lúc.',
-    count: 'Hội thoại N3',
+    count: 'Hội thoại tiếng Nhật',
     color: 'mode-green',
   },
 ]
@@ -81,9 +81,9 @@ export default function Home() {
           <span className="logo-jp" lang="ja">日本語</span>
           <span className="hanko" lang="ja" aria-hidden="true">聴</span>
         </div>
-        <span className="logo-sub" lang="ja">JLPT N3 リスニング</span>
+        <span className="logo-sub" lang="ja">日本語 リスニング</span>
         <p className="home-desc">
-          Luyện kỹ năng nghe tiếng Nhật N3 — học bằng đề mẫu hoặc nội dung của bạn
+          Luyện kỹ năng nghe tiếng Nhật — học bằng đề mẫu hoặc nội dung của bạn
         </p>
       </header>
 
@@ -133,7 +133,7 @@ export default function Home() {
       </button>
 
       <footer className="home-footer">
-        <span>⛩️ N3レベル ・ AI 搭載 ・ 随時更新</span>
+        <span>⛩️ リスニング練習 ・ AI 搭載 ・ 随時更新</span>
       </footer>
     </div>
   )

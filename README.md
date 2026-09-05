@@ -1,8 +1,8 @@
-<h1 align="center">日本語 — Luyện nghe JLPT N3</h1>
+<h1 align="center">日本語 — Luyện nghe tiếng Nhật</h1>
 
 <p align="center">
   Biến <b>bất kỳ đoạn audio hay video YouTube tiếng Nhật nào</b><br/>
-  thành một bài luyện nghe JLPT hoàn chỉnh — bằng AI.
+  thành một bài luyện nghe hoàn chỉnh — bằng AI.
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 
 ## Vấn đề
 
-Đề luyện nghe N3 thì hữu hạn, làm hết là hết. Trong khi đó nội dung tiếng Nhật
+Đề luyện nghe có sẵn thì hữu hạn, làm hết là hết. Trong khi đó nội dung tiếng Nhật
 ngoài kia thì vô tận — chỉ có điều nó không đi kèm câu hỏi, không có furigana,
 không có bản dịch, và không chấm điểm cho bạn.
 
@@ -30,7 +30,7 @@ Backend sẽ:
 2. Tách hình vị bằng **kuromoji**, gắn **furigana** — chỉ cho token có kanji, và
    chỉ khi cách đọc khác mặt chữ, để không chú thích thừa lên từ thuần kana.
 3. Dịch toàn bộ sang tiếng Việt trong **một** lời gọi Gemini.
-4. Sinh **câu hỏi trắc nghiệm nghe hiểu** và **câu điền từ** đúng format JLPT.
+4. Sinh **câu hỏi trắc nghiệm nghe hiểu** và **câu điền từ** đúng format đề thi nghe.
 
 Kết quả: một bài học có transcript chạy đồng bộ theo video, furigana, bản dịch,
 và bộ câu hỏi có chấm điểm — từ nội dung mà chính bạn quan tâm.
@@ -39,7 +39,7 @@ và bộ câu hỏi có chấm điểm — từ nội dung mà chính bạn quan
 
 | | |
 |---|---|
-| **聴解クイズ** | Nghe hội thoại (TTS) rồi chọn đáp án, đúng format thi JLPT |
+| **聴解クイズ** | Nghe hội thoại (TTS) rồi chọn đáp án, đúng format đề thi nghe |
 | **穴埋め問題** | Nghe rồi điền từ còn thiếu vào chỗ trống |
 | **シャドーイング** | Nghe từng câu, nhắc lại, có ghi âm để tự so sánh |
 | **音声アップロード** | Tải audio + transcript, AI sinh đề cho bạn |
