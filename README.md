@@ -11,6 +11,12 @@
   <img alt="Express" src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=white" />
   <img alt="SQLite" src="https://img.shields.io/badge/sql.js-SQLite%20WASM-003B57?logo=sqlite&logoColor=white" />
   <img alt="Gemini" src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285F4?logo=googlegemini&logoColor=white" />
+  <img alt="Vercel" src="https://img.shields.io/badge/deploy-Vercel-000000?logo=vercel&logoColor=white" />
+</p>
+
+<p align="center">
+  <b>🎧 Vào luyện nghe: <a href="https://jp-learning-eta.vercel.app/">jp-learning-eta.vercel.app</a></b><br/>
+  <sub>Mở trình duyệt là chạy — frontend và API nằm chung một project Vercel.</sub>
 </p>
 
 ---
@@ -92,3 +98,19 @@ cd my-first-react-app && npm install && npm run dev
 http://localhost:5173.
 
 Hướng dẫn đầy đủ: [`my-first-react-app/README.md`](my-first-react-app/README.md).
+
+## Deploy
+
+Frontend và backend nằm chung **một project Vercel**: `my-first-react-app/api/`
+bọc app Express thành một serverless function, còn `vercel.json` khai đường đi
+và ép đóng gói các file mà `kuromoji` (từ điển) và `sql.js` (wasm) nạp lúc chạy.
+Frontend gọi `/api` cùng domain nên không vướng CORS.
+
+Import repo vào Vercel với **Root Directory = `my-first-react-app`**, preset
+**Vite**, và thêm biến môi trường `GEMINI_API_KEY`.
+
+> Lưu ý: Vercel chỉ cho ghi vào `/tmp`, mà thư mục đó sống theo vòng đời từng
+> instance — bài học người dùng tự thêm (YouTube, audio upload) sẽ mất khi
+> instance bị thu hồi. Bộ đề mẫu không ảnh hưởng vì đọc từ `questions.json`
+> trong repo. Muốn dữ liệu bền thì thay `sql.js` bằng một DB có host riêng.
+
