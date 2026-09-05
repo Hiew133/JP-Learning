@@ -1,4 +1,7 @@
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+// Bản deploy gộp: frontend và API cùng domain nên đường dẫn tương đối '/api'
+// là đủ. Lúc dev thì backend chạy riêng ở cổng 3001.
+const BASE =
+  import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3001/api' : '/api')
 // Gốc server (không kèm /api) — dùng cho file tĩnh như audio
 export const SERVER_ORIGIN = BASE.replace(/\/api\/?$/, '')
 

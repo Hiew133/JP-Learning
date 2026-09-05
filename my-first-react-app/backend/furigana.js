@@ -3,12 +3,21 @@ const path = require('path')
 
 let tokenizerPromise = null
 
+// Thư mục từ điển của kuromoji. Không hardcode `backend/node_modules` nữa: khi
+// deploy serverless, dependency được cài ở gốc project chứ không nằm cạnh file
+// này, nên đường dẫn cứng sẽ không tồn tại. require.resolve tìm đúng chỗ gói
+// thực sự nằm, dù là node_modules nào.
+const DICT_PATH = path.join(
+  path.dirname(require.resolve('kuromoji/package.json')),
+  'dict',
+)
+
 // Khởi tạo tokenizer kuromoji 1 lần (nạp từ điển ~ vài giây lần đầu)
 function getTokenizer() {
   if (!tokenizerPromise) {
     tokenizerPromise = new Promise((resolve, reject) => {
       kuromoji
-        .builder({ dicPath: path.join(__dirname, 'node_modules', 'kuromoji', 'dict') })
+        .builder({ dicPath: DICT_PATH })
         .build((err, tokenizer) => (err ? reject(err) : resolve(tokenizer)))
     })
   }

@@ -2,7 +2,9 @@ const initSqlJs = require('sql.js')
 const fs = require('fs')
 const path = require('path')
 
-const DB_PATH = path.join(__dirname, 'data.db')
+// Nơi ghi file SQLite. Serverless có filesystem chỉ đọc, chỉ /tmp ghi được -
+// nên đường dẫn phải đổi được qua biến môi trường DB_PATH.
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data.db')
 let db = null
 
 async function init() {
@@ -60,7 +62,14 @@ async function init() {
 
 function persist() {
   if (!db) return
-  fs.writeFileSync(DB_PATH, Buffer.from(db.export()))
+  // Ghi hỏng thì chỉ mất phần lưu bền, KHÔNG được làm sập request đang chạy:
+  // trên serverless filesystem có thể chỉ đọc, và dữ liệu trong bộ nhớ vẫn
+  // dùng được cho tới khi instance bị thu hồi.
+  try {
+    fs.writeFileSync(DB_PATH, Buffer.from(db.export()))
+  } catch (err) {
+    console.warn(`Không ghi được DB xuống ${DB_PATH}: ${err.message}`)
+  }
 }
 
 function all(sql, params = []) {

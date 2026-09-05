@@ -14,7 +14,7 @@ const { toFurigana } = require('./furigana')
 const { translateSegments } = require('./translate')
 
 const QUESTIONS_PATH = path.join(__dirname, 'data', 'questions.json')
-const UPLOADS_DIR = path.join(__dirname, 'uploads')
+const UPLOADS_DIR = process.env.UPLOADS_DIR || path.join(__dirname, 'uploads')
 
 // Thư mục lưu file audio người dùng tải lên
 fs.mkdirSync(UPLOADS_DIR, { recursive: true })
@@ -26,10 +26,21 @@ const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173'
 
 // Header bảo mật cơ bản. Tắt CORP để file audio tĩnh vẫn nhúng được ở frontend khác origin.
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
-app.use(cors({ origin: CLIENT_ORIGIN }))
+// CLIENT_ORIGIN='*' cho phép mọi origin - dùng khi frontend và API nằm CÙNG
+// một domain (deploy gộp), lúc đó CORS không còn là ranh giới bảo vệ gì.
+app.use(cors({ origin: CLIENT_ORIGIN === '*' ? true : CLIENT_ORIGIN }))
 app.use(express.json())
 // Phục vụ file audio đã tải lên (dùng cho thẻ <audio> ở frontend)
 app.use('/uploads', express.static(UPLOADS_DIR))
+// Mount thêm dưới /api/uploads: khi deploy gộp, Vercel đưa mọi thứ về hàm
+// catch-all /api/*, nên file audio cũng phải với tới được qua tiền tố đó.
+app.use('/api/uploads', express.static(UPLOADS_DIR))
+
+// Mọi request đều chờ DB init xong (ensureDb định nghĩa ở cuối file). Cần thiết
+// cho serverless: không có bước khởi động riêng để chờ trước khi nhận request.
+app.use((_req, _res, next) => {
+  ensureDb().then(() => next()).catch(next)
+})
 
 // Giới hạn tần suất cho các route gọi AI (Gemini) — tránh bị spam đốt quota/chi phí.
 // 20 lần / 10 phút / IP cho việc sinh câu hỏi & điền từ.
@@ -347,12 +358,34 @@ app.use((err, _req, res, _next) => {
   res.status(400).json({ error: err.message || 'Lỗi server' })
 })
 
-// Init DB then start server
-db.init().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Backend chạy tại http://localhost:${PORT} (cho phép origin: ${CLIENT_ORIGIN})`)
-  })
-}).catch((err) => {
-  console.error('Không thể khởi động DB:', err)
-  process.exit(1)
-})
+// DB phải sẵn sàng trước khi phục vụ request. Ở serverless, mỗi instance lạnh
+// khởi tạo lại từ đầu và không có bước "start server" nào để chờ, nên init
+// được bọc thành promise dùng chung và mọi request đều await nó.
+let dbReady = null
+function ensureDb() {
+  if (!dbReady) {
+    dbReady = db.init().catch((err) => {
+      dbReady = null // cho lần sau thử lại thay vì hỏng vĩnh viễn
+      throw err
+    })
+  }
+  return dbReady
+}
+
+// Chạy trực tiếp (`node server.js`) thì mở cổng như cũ. Được require từ nơi
+// khác (hàm serverless) thì chỉ xuất app ra, không listen.
+if (require.main === module) {
+  ensureDb()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`✅ Backend chạy tại http://localhost:${PORT} (cho phép origin: ${CLIENT_ORIGIN})`)
+      })
+    })
+    .catch((err) => {
+      console.error('Không thể khởi động DB:', err)
+      process.exit(1)
+    })
+}
+
+module.exports = app
+module.exports.ensureDb = ensureDb
